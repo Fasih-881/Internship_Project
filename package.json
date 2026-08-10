@@ -18,11 +18,11 @@
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "fetch": "^1.1.0",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.9.1",
-    "nodemon": "^3.1.14"
+    "node-fetch": "^3.3.2"
   },
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Fasih-881/Internship_Project.git"
@@ -30,5 +30,8 @@
   "bugs": {
     "url": "https://github.com/Fasih-881/Internship_Project/issues"
   },
-  "homepage": "https://github.com/Fasih-881/Internship_Project#readme"
+  "homepage": "https://github.com/Fasih-881/Internship_Project#readme",
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
 }
