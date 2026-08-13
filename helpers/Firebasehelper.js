@@ -41,13 +41,17 @@ export const getUserFCMToken = async (userId) => {
 export const saveNotification = async (
     userId,
     title,
-    body
+    body,
+    location,
+    weather
 ) => {
 
     const notificationRef = await notificationsCollection.add({
         userId,
         title,
         body,
+        location,
+        weather,
         timestamp: new Date()
     });
 
