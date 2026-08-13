@@ -1,22 +1,31 @@
 import fetch from "node-fetch";
 import express from "express";
+import dbase from "../firebase.js";
+
 
 
 const getState = async (lat, lon) => {
   const response = await fetch(
     `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lon}&apiKey=${process.env.LOC_API_KEY}`
-  );
+  );                          
 
   const data = await response.json();
 
-  if (!response.ok) {
-    throw new Error(data.message || "Failed to fetch city");
+  if (!response) {
+    return res.status(400).json({
+      success : false,
+      message : "Failed to get city ",
+    });
+    
   }
 
   const state = data.features?.[0]?.properties?.state;
 
   if (!state) {
-    throw new Error("State not found");
+    return res.status(400).json({
+      success : false,
+      message : "Failed to get state "
+    });
   }
 
   return state;
@@ -24,6 +33,7 @@ const getState = async (lat, lon) => {
 
 
 const getWeather = async (state) => {
+  //EncodeURIComponent is used to encode the state name to be URL-safe FROM JSON
   const response = await fetch(
     `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(
       state 
@@ -31,12 +41,15 @@ const getWeather = async (state) => {
   );
 
   const data = await response.json();
-
-  if (!response.ok) {
-    throw new Error(data.message || "Failed to fetch weather");
+  const temp = data.main?.temp;
+  
+   if (!response) {
+    return res.status(400).json({
+      success : false,
+      message : "Failed to get wheather ",
+    });
   }
-
-  return data;
+  return temp;
 };
 
 
@@ -71,3 +84,5 @@ export const getWeatherByLocation = async (req, res) => {
     });
   }
 };
+
+
