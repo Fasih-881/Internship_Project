@@ -41,8 +41,8 @@ const getWeather = async (state) => {
   );
 
   const data = await response.json();
-  const temp = data.main?.temp;
-  
+  let temp = data.main?.temp;
+  temp = (temp - 273.15);
    if (!response) {
     return res.status(400).json({
       success : false,
