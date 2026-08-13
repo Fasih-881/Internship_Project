@@ -4,7 +4,7 @@ const usersCollection = db.collection("users");
 const notificationsCollection = db.collection("notifications");
 
 export const createUser = async (userName, email, fcmToken) => {
-    const userRef = await usersCollection.add({
+    const user = await usersCollection.add({
         userName,
         email,
         fcmToken,
@@ -12,7 +12,7 @@ export const createUser = async (userName, email, fcmToken) => {
     });
 
     return {
-        userId: userRef.id,
+        userId: user.id,
         userName,
         email,
         fcmToken
@@ -40,15 +40,14 @@ export const getUserFCMToken = async (userId) => {
 
 export const saveNotification = async (
     userId,
-    location,
-    weather,
-    fcmToken
+    title,
+    body
 ) => {
+
     const notificationRef = await notificationsCollection.add({
         userId,
-        location,
-        weather,
-        fcmToken,
+        title,
+        body,
         timestamp: new Date()
     });
 
