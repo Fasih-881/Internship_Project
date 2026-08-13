@@ -1,22 +1,27 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import router from "./routes/firebase.routes.js";
-
-const app = express();
+import firebaseRouter from "./routes/firebase.routes.js";
+import apiRouter from "./routes/api.route.js";
 
 dotenv.config();
+
+const app = express();
 
 // Middleware
 app.use(express.json());
 app.use(cors());
 
+// Test route
 app.get("/", (req, res) => {
     res.send("Server is working");
 });
 
+// API routes
+app.use("/", apiRouter);
+
 // Firebase routes
-app.use("/", router);
+app.use("/", firebaseRouter);
 
 const PORT = process.env.PORT || 3007;
 
