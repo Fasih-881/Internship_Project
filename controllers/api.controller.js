@@ -74,21 +74,21 @@ export const getWeatherByLocation = async (req, res) => {
             });
         }
 
-        // 1. Get location
+        //Get location
         const state = await getState(lat, lon);
 
-        // 2. Get weather
+        // Get weather
         const weather = await getWeather(state);
 
-        // 3. Temperature threshold
+        // Temperature threshold
         const threshold = Number(process.env.TEMP_THRESHOLD);
 
         let notificationSent = false;
 
-        // 4. Check temperature
+        // Check temperature
         if (weather >= threshold) {
 
-            // 5. Get user's FCM token
+            //S Get user's FCM token
             const fcmToken = await getUserFCMToken(userId);
 
             if (fcmToken) {
@@ -98,14 +98,14 @@ export const getWeatherByLocation = async (req, res) => {
                 const body =
                     `The temperature in ${state} is ${weather.toFixed(1)}°C.`;
 
-                // 6. Send notification
+                // Send notification
                 await sendPushNotification(
                     fcmToken,
                     title,
                     body
                 );
 
-                // 7. Save notification
+                // Save notification
                 await saveNotification(
                     userId,
                     title,
@@ -118,7 +118,6 @@ export const getWeatherByLocation = async (req, res) => {
             }
         }
 
-        // 8. Return response
         return res.status(200).json({
             success: true,
             state,

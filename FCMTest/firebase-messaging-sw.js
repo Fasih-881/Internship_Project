@@ -6,6 +6,7 @@ importScripts(
     "https://www.gstatic.com/firebasejs/12.0.0/firebase-messaging-compat.js"
 );
 
+
 const firebaseConfig = {
     apiKey: "AIzaSyAzhiZGlCfRQ1vTXctb4oobYQg012vS3SA",
     authDomain: "internship-project-notify.firebaseapp.com",
@@ -15,6 +16,27 @@ const firebaseConfig = {
     appId: "1:377914727099:web:ca32ebbf49659a7b0d279e"
 };
 
+
 firebase.initializeApp(firebaseConfig);
 
 const messaging = firebase.messaging();
+
+
+// BACKGROUND MESSAGES
+messaging.onBackgroundMessage((payload) => {
+    console.log("🔥 BACKGROUND MESSAGE RECEIVED:", payload);
+
+    const title =
+        payload.notification?.title ||
+        payload.data?.title ||
+        "Notification";
+
+    const body =
+        payload.notification?.body ||
+        payload.data?.body ||
+        "Notification received!";
+
+    self.registration.showNotification(title, {
+        body: body
+    });
+});
